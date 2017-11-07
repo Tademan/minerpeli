@@ -64,30 +64,34 @@ public class Minerpeli {
             pekka.sell();
 
         }
-        if (pekka.getX() == 10 && pekka.getY() == 1){
+        if (pekka.getX() == 10 && pekka.getY() == 1) {
             pekka.buy(MyMap.NodeType.LADDER);
         }
     }
 
     private void movePlayer(int x, int y) {
         if (map.isWithinMap(this.pekka.getX() + x, this.pekka.getY() + y)) {
-            
-            
+
             MyMap.NodeType type = map.getNode(this.pekka.getX() + x, this.pekka.getY() + y);
-            if ((
-                    !map.isWithinMap(this.pekka.getX(), this.pekka.getY() + 1)
-                    || !map.isWithinMap(this.pekka.getX(), this.pekka.getY() + 2))
-                    || (y == -1
-                    && map.getNode(this.pekka.getX(), this.pekka.getY() + 1) == MyMap.NodeType.AIR
-                    && !(map.getNode(this.pekka.getX(), this.pekka.getY() + 2) == MyMap.NodeType.AIR))) {
-                
-                if ((pekka.getInventory().get(MyMap.NodeType.LADDER) > 0)&&(this.pekka.getY() > 1)) {
-                    map.setNode(this.pekka.getX(), this.pekka.getY() + 1, MyMap.NodeType.LADDER);
+            int px = this.pekka.getX();
+            int py = this.pekka.getY();
+            
+            if (!map.isWithinMap(px, py + 1)  //Ladderin pistäminen
+                    || !map.isWithinMap(px, py + 2)
+                    || (
+                        y == -1
+                        && map.getNode(px, py + 1) == MyMap.NodeType.AIR
+                        && map.getNode(px, py + 2) != MyMap.NodeType.AIR
+                    )
+                ) {
+
+                if (pekka.getInventory().get(MyMap.NodeType.LADDER) > 0 && py > 1) {
+                    map.setNode(px, py + 1, MyMap.NodeType.LADDER);
                     pekka.setInInventory(MyMap.NodeType.LADDER, -1);
-                }else{    
+                } else {
                     this.pekka.move(0, 1);
                 }
-            } else if (map.isWithinMap(this.pekka.getX(), this.pekka.getY() + 1) && map.getNode(this.pekka.getX(), this.pekka.getY() + 1) == MyMap.NodeType.AIR) {
+            } else if (map.isWithinMap(px, py + 1) && map.getNode(px, py + 1) == MyMap.NodeType.AIR) {
                 this.pekka.move(0, 1);
             } else if (type == MyMap.NodeType.AIR || type == MyMap.NodeType.LADDER) {
                 this.pekka.move(x, y);
@@ -95,8 +99,8 @@ public class Minerpeli {
             } else if (type == MyMap.NodeType.HARDSTONE || type == MyMap.NodeType.LADDER) {
 
             } else {
-                map.setNode(pekka.getX() + x, pekka.getY() + y, MyMap.NodeType.AIR);
-                pekka.setInInventory(type,1);
+                map.setNode(px + x, py + y, MyMap.NodeType.AIR);
+                pekka.setInInventory(type, 1);
             }
         }
 

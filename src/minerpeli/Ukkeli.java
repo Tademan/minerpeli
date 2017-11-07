@@ -27,7 +27,7 @@ public class Ukkeli {
             this.inventory.put(type, a);
 
         }
-        this.inventory.put(MyMap.NodeType.LADDER,100);
+        this.inventory.put(MyMap.NodeType.LADDER,10);
 
     }
     public void buy(MyMap.NodeType type){

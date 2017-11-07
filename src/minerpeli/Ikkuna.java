@@ -38,51 +38,54 @@ public class Ikkuna extends Canvas {
 
     }
 
-    @Override
-    public void paint(Graphics g){
-        paint1(g);
+    public void maalaa(Graphics g,int x, int y){
+        if (null != map.getNode(x, y)) {
+                    switch (map.getNode(x, y)) {
+                        case STONE:
+                            g.setColor(Color.gray);
+                            g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
+                            break;
+                        case HARDSTONE:
+                            g.setColor(Color.black);
+                            g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
+                            break;
+                        case COAL:
+                            g.setColor(Color.darkGray);
+                            g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
+                            break;
+                        case GOLD:
+                            g.setColor(Color.yellow);
+                            g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
+                            break;
+                        case IRON:
+                            g.setColor(Color.lightGray);
+                            g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
+                            break;
+                        case DIAMOND:
+                            g.setColor(Color.blue);
+                            g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
+                            break;
+                        case LADDER:
+                            g.setColor(Color.orange);
+                            g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
+                            break;
+                        default:
+                            break;
+                    }
+                }
     }
+    @Override
+    public void paint(Graphics g) {
+        paint2(g);
+    }
+
     public void paint1(Graphics g) {
         g.setColor(Color.black);
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getHeight(); j++) {
-                if (null != map.getNode(i, j)) {
-                    switch (map.getNode(i, j)) {
-                        case STONE:
-                            g.setColor(Color.gray);
-                            g.fillRect(i * kerroin, j * kerroin, kerroin, kerroin);
-                            break;
-                        case HARDSTONE:
-                            g.setColor(Color.black);
-                            g.fillRect(i * kerroin, j * kerroin, kerroin, kerroin);
-                            break;
-                        case COAL:
-                            g.setColor(Color.darkGray);
-                            g.fillRect(i * kerroin, j * kerroin, kerroin, kerroin);
-                            break;
-                        case GOLD:
-                            g.setColor(Color.yellow);
-                            g.fillRect(i * kerroin, j * kerroin, kerroin, kerroin);
-                            break;
-                        case IRON:
-                            g.setColor(Color.lightGray);
-                            g.fillRect(i * kerroin, j * kerroin, kerroin, kerroin);
-                            break;
-                        case DIAMOND:
-                            g.setColor(Color.blue);
-                            g.fillRect(i * kerroin, j * kerroin, kerroin, kerroin);
-                            break;
-                        case LADDER:
-                            g.setColor(Color.orange);
-                            g.fillRect(i * kerroin, j * kerroin, kerroin, kerroin);
-                            break;    
-                        default:
-                            break;
-                    }
-                }
+                maalaa(g,i,j);
 
             }
-            
 
         }
         g.setColor(Color.pink);
@@ -91,55 +94,18 @@ public class Ikkuna extends Canvas {
         g.fillRect(this.pekka.getX() * kerroin, this.pekka.getY() * kerroin, kerroin, kerroin);
         g.drawString("Rahat: " + Integer.toString(this.pekka.getRaha()), 10, 20);
         g.drawString("Tikkaat: " + Integer.toString(this.pekka.getInventory().get(MyMap.NodeType.LADDER)), 10, 30);
-        
 
     }
-    
-    
+
     public void paint2(Graphics g) {
         g.setColor(Color.black);
-        for (int i = -näkymä; i < näkymä+1; i++) {
-            for (int j = -näkymä; j < näkymä+1; j++) {
+        for (int i = -näkymä; i < näkymä + 1; i++) {
+            for (int j = -näkymä; j < näkymä + 1; j++) {
+
                 int in = i + this.pekka.getX();
                 int jn = j + this.pekka.getY();
-                
-                if (null != map.getNode(in, jn)) {
-                    switch (map.getNode(in, jn)) {
-                        case STONE:
-                            g.setColor(Color.gray);
-                            g.fillRect(in * kerroin, jn * kerroin, kerroin, kerroin);
-                            break;
-                        case HARDSTONE:
-                            g.setColor(Color.black);
-                            g.fillRect(in * kerroin, jn * kerroin, kerroin, kerroin);
-                            break;
-                        case COAL:
-                            g.setColor(Color.darkGray);
-                            g.fillRect(in * kerroin, jn * kerroin, kerroin, kerroin);
-                            break;
-                        case GOLD:
-                            g.setColor(Color.yellow);
-                            g.fillRect(in * kerroin, jn * kerroin, kerroin, kerroin);
-                            break;
-                        case IRON:
-                            g.setColor(Color.lightGray);
-                            g.fillRect(in * kerroin, jn * kerroin, kerroin, kerroin);
-                            break;
-                        case DIAMOND:
-                            g.setColor(Color.blue);
-                            g.fillRect(in * kerroin, jn * kerroin, kerroin, kerroin);
-                            break;
-                        case LADDER:
-                            g.setColor(Color.orange);
-                            g.fillRect(in * kerroin, jn * kerroin, kerroin, kerroin);
-                            break;    
-                        default:
-                            break;
-                    }
-                }
-
+                maalaa(g,in,jn);
             }
-            
 
         }
         g.setColor(Color.pink);
@@ -148,7 +114,6 @@ public class Ikkuna extends Canvas {
         g.fillRect(this.pekka.getX() * kerroin, this.pekka.getY() * kerroin, kerroin, kerroin);
         g.drawString("Rahat: " + Integer.toString(this.pekka.getRaha()), 10, 20);
         g.drawString("Tikkaat: " + Integer.toString(this.pekka.getInventory().get(MyMap.NodeType.LADDER)), 10, 30);
-        
 
     }
 
