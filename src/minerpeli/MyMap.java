@@ -78,7 +78,6 @@ public class MyMap {
     public void writeToStream(OutputStream s) throws IOException {
         s.write(width);
         s.write(height);
-        s.write(voittoPisteet);
         s.write(PlayerX);
         s.write(PlayerY);
         
@@ -96,7 +95,6 @@ public class MyMap {
     public static MyMap readFromStream(InputStream s) throws IOException {
         int width = s.read();
         int height = s.read();
-        int voittoPisteet = s.read();
         int PlayerX = s.read();
         int PlayerY = s.read();
         

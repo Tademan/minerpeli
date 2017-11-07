@@ -23,11 +23,11 @@ public class MapCreator {
     public static void main(String[] args) throws IOException {
         Random r = new Random();
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 1; i < 3; i++) {
             File file = new File("kartat/kartta" + String.format("%03d", i) + ".dat");
-            MyMap map = new MyMap(30, 30, 5, 5);
-            for (int j = 0; j < map.getHeight(); j++) {
-                for (int k = 0; k < map.getWidth(); k++) {
+            MyMap map = new MyMap(30, 10, 5, 5);
+            for (int j = 0; j < map.getWidth(); j++) {
+                for (int k = 0; k < map.getHeight(); k++) {
                     if (k < 3){
                         map.setNode(j, k, NodeType.AIR);
                     }else if (k == 3) {
@@ -47,7 +47,10 @@ public class MapCreator {
                     }
                 }
             }
-            map.setNode(r.nextInt(map.getWidth()-1), map.getWidth()-1-r.nextInt(5), NodeType.DIAMOND);
+            map.setNode(r.nextInt(map.getWidth()-1), map.getHeight()-2-r.nextInt(map.getHeight()/10), NodeType.DIAMOND);
+            for (int k = 0; k < map.getWidth(); k++){
+                map.setNode(k, map.getHeight()-1, NodeType.HARDSTONE);
+            }
 
             try (FileOutputStream o = new FileOutputStream(file)) {
                 map.writeToStream(o);

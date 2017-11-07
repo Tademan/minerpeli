@@ -91,13 +91,13 @@ public class Minerpeli {
                 } else {
                     this.pekka.move(0, 1);
                 }
-            } else if (map.isWithinMap(px, py + 1) && map.getNode(px, py + 1) == MyMap.NodeType.AIR) {
+            } else if (map.isWithinMap(px, py + 1) && map.getNode(px, py + 1) == MyMap.NodeType.AIR) {//tippuminen
                 this.pekka.move(0, 1);
             } else if (type == MyMap.NodeType.AIR || type == MyMap.NodeType.LADDER) {
                 this.pekka.move(x, y);
 
             } else if (type == MyMap.NodeType.HARDSTONE || type == MyMap.NodeType.LADDER) {
-
+                   
             } else {
                 map.setNode(px + x, py + y, MyMap.NodeType.AIR);
                 pekka.setInInventory(type, 1);
