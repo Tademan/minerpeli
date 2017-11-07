@@ -40,6 +40,12 @@ public class Ukkeli {
         }
                 
     }
+
+    public void addToRaha(int x) {
+        this.raha += x;
+    }
+    
+    
     public void sell() {
         this.raha = this.raha + inventory.get(MyMap.NodeType.COAL)*1;
         this.raha = this.raha + inventory.get(MyMap.NodeType.GOLD)*5;

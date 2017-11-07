@@ -30,6 +30,7 @@ public class MyMap {
         PlayerY = pY;
         
         map = new NodeType[x][y];
+        
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 map[i][j] = NodeType.AIR;
@@ -85,7 +86,7 @@ public class MyMap {
 
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                bytes[j * height + i] = map[i][j].getCode();
+                bytes[i * height + j] = map[i][j].getCode();
             }
         }
 
@@ -105,7 +106,7 @@ public class MyMap {
         MyMap map = new MyMap(width, height,PlayerX,PlayerY);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
-                NodeType type = NodeType.nodeTypeFromByte(bytes[j * height + i]);
+                NodeType type = NodeType.nodeTypeFromByte(bytes[i * height + j]);
                 if (type == null) {
                     throw new RuntimeException("illegal map data, node type not found: " + bytes[j * height + i]);
                 }

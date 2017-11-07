@@ -67,6 +67,13 @@ public class Minerpeli {
         if (pekka.getX() == 10 && pekka.getY() == 1) {
             pekka.buy(MyMap.NodeType.LADDER);
         }
+        if (pekka.getX() == 11 && pekka.getY() == 1) {
+            if (pekka.getRaha() >= 50) {
+                pekka.addToRaha(-50);
+                ikkuna.addToNäkymä(1);
+            }
+        }
+
     }
 
     private void movePlayer(int x, int y) {
@@ -75,15 +82,12 @@ public class Minerpeli {
             MyMap.NodeType type = map.getNode(this.pekka.getX() + x, this.pekka.getY() + y);
             int px = this.pekka.getX();
             int py = this.pekka.getY();
-            
-            if (!map.isWithinMap(px, py + 1)  //Ladderin pistäminen
+
+            if (!map.isWithinMap(px, py + 1) //Ladderin pistäminen
                     || !map.isWithinMap(px, py + 2)
-                    || (
-                        y == -1
-                        && map.getNode(px, py + 1) == MyMap.NodeType.AIR
-                        && map.getNode(px, py + 2) != MyMap.NodeType.AIR
-                    )
-                ) {
+                    || (y == -1
+                    && map.getNode(px, py + 1) == MyMap.NodeType.AIR
+                    && map.getNode(px, py + 2) != MyMap.NodeType.AIR)) {
 
                 if (pekka.getInventory().get(MyMap.NodeType.LADDER) > 0 && py > 1) {
                     map.setNode(px, py + 1, MyMap.NodeType.LADDER);
@@ -97,7 +101,7 @@ public class Minerpeli {
                 this.pekka.move(x, y);
 
             } else if (type == MyMap.NodeType.HARDSTONE || type == MyMap.NodeType.LADDER) {
-                   
+
             } else {
                 map.setNode(px + x, py + y, MyMap.NodeType.AIR);
                 pekka.setInInventory(type, 1);
