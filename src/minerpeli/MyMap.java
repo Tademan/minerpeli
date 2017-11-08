@@ -20,17 +20,17 @@ public class MyMap {
     private final int height;
     private int voittoPisteet;
     private int PlayerX;
-    private int PlayerY;        
-    private  NodeType[][] map;
+    private int PlayerY;
+    private NodeType[][] map;
 
-    public MyMap(int x, int y,int pX,int pY) {
+    public MyMap(int x, int y, int pX, int pY) {
         width = x;
         height = y;
         PlayerX = pX;
         PlayerY = pY;
-        
+
         map = new NodeType[x][y];
-        
+
         for (int i = 0; i < x; i++) {
             for (int j = 0; j < y; j++) {
                 map[i][j] = NodeType.AIR;
@@ -39,7 +39,9 @@ public class MyMap {
     }
 
     public void setNode(int x, int y, NodeType type) {
-        map[x][y] = type;
+        if (this.isWithinMap(x, y)) {
+            map[x][y] = type;
+        }
     }
 
     public NodeType getNode(int x, int y) {
@@ -53,7 +55,7 @@ public class MyMap {
     public void setPlayerY(int PlayerY) {
         this.PlayerY = PlayerY;
     }
-    
+
     public int getHeight() {
         return this.height;
     }
@@ -62,8 +64,6 @@ public class MyMap {
         return this.width;
     }
 
- 
-    
     public int getPlayerX() {
         return PlayerX;
     }
@@ -71,7 +71,7 @@ public class MyMap {
     public int getPlayerY() {
         return PlayerY;
     }
-    
+
     public boolean isWithinMap(int x, int y) {
         return x >= 0 && x < width && y >= 0 && y < height;
     }
@@ -81,7 +81,7 @@ public class MyMap {
         s.write(height);
         s.write(PlayerX);
         s.write(PlayerY);
-        
+
         byte[] bytes = new byte[width * height];
 
         for (int i = 0; i < width; i++) {
@@ -98,12 +98,11 @@ public class MyMap {
         int height = s.read();
         int PlayerX = s.read();
         int PlayerY = s.read();
-        
 
         byte[] bytes = new byte[width * height];
         s.read(bytes);
 
-        MyMap map = new MyMap(width, height,PlayerX,PlayerY);
+        MyMap map = new MyMap(width, height, PlayerX, PlayerY);
         for (int i = 0; i < width; i++) {
             for (int j = 0; j < height; j++) {
                 NodeType type = NodeType.nodeTypeFromByte(bytes[i * height + j]);
@@ -116,33 +115,30 @@ public class MyMap {
 
         return map;
     }
-    
+
     public enum NodeCategory {
         AIR,
         EARTH,
         ORE,
         ITEM,
-        KAUPPA,
-        ;
-        
-        
+        KAUPPA,;
+
     }
 
     public enum NodeType {
         AIR(0, NodeCategory.AIR),
         STONE(1, NodeCategory.EARTH),
-        GRASS(2,NodeCategory.EARTH),
-        HARDSTONE(3,NodeCategory.EARTH),
-        COAL(4,NodeCategory.ORE),
-        IRON(5,NodeCategory.ORE),
-        GOLD(6,NodeCategory.ORE),
-        DIAMOND(7,NodeCategory.ORE),
-        RUBIN(8,NodeCategory.ORE),
-        LADDER(9,NodeCategory.ITEM),
-        PILLAR(10,NodeCategory.ITEM),
-        KAUPPA1(11,NodeCategory.KAUPPA),
-        KAUPPA2(12,NodeCategory.KAUPPA)
-        ;
+        GRASS(2, NodeCategory.EARTH),
+        HARDSTONE(3, NodeCategory.EARTH),
+        COAL(4, NodeCategory.ORE),
+        IRON(5, NodeCategory.ORE),
+        GOLD(6, NodeCategory.ORE),
+        DIAMOND(7, NodeCategory.ORE),
+        RUBIN(8, NodeCategory.ORE),
+        LADDER(9, NodeCategory.ITEM),
+        PILLAR(10, NodeCategory.ITEM),
+        KAUPPA1(11, NodeCategory.KAUPPA),
+        KAUPPA2(12, NodeCategory.KAUPPA);
 
         public static NodeType nodeTypeFromByte(byte i) {
             for (NodeType t : values()) {
@@ -168,8 +164,6 @@ public class MyMap {
         public NodeCategory getCategory() {
             return category;
         }
-        
-        
 
     }
 

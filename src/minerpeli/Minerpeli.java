@@ -110,8 +110,10 @@ public class Minerpeli {
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Minerpeli game = new Minerpeli();
+        MapCreator creator = new MapCreator();
+        creator.teekartta();
         try (FileInputStream i = new FileInputStream(MAP_FILE)) {
             game.map = MyMap.readFromStream(i);
         } catch (IOException e) {
@@ -121,6 +123,7 @@ public class Minerpeli {
 
         game.pekka = new Ukkeli(2, 2);
         game.ikkuna = new Ikkuna(game.map, game.pekka,1);
+        
 
         game.init();
 

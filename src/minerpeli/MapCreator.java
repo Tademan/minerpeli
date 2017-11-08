@@ -20,12 +20,12 @@ public class MapCreator {
     /**
      * @param args the command line arguments
      */
-    private static double tod(int y,int start,int whenhalf,double endtod){
-        
-        return (Math.atan((y-start)/(whenhalf-start) /(Math.PI/2))*endtod);
+    private static double tod(int y, int start, int whenhalf, double endtod) {
+
+        return (Math.atan((y - start) / (whenhalf - start) / (Math.PI / 2)) * endtod);
     }
-    
-    public static void main(String[] args) throws IOException {
+
+    public void teekartta() throws IOException {
         Random r = new Random();
         float pi = (float) Math.PI;
 
@@ -38,22 +38,26 @@ public class MapCreator {
 
                     map.setNode(x, y, NodeType.STONE);
 
-                    if (r.nextFloat() < tod(y,5,30,0.1)) {
+                    if (r.nextFloat() < tod(y, 5, 30, 0.1)) {
                         map.setNode(x, y, NodeType.HARDSTONE);
                     }
-                    if (r.nextFloat() < tod(y,0,5,0.2)) {
+                    if (r.nextFloat() < tod(y, 0, 5, 0.2)) {
                         map.setNode(x, y, NodeType.COAL);
                     }
-                    if (r.nextFloat() < tod(y,0,10,0.1)) {
+                    if (r.nextFloat() < tod(y, 0, 10, 0.1)) {
                         map.setNode(x, y, NodeType.IRON);
                     }
-                    if (r.nextFloat() < tod(y,10,20,0.025)) {
+                    if (r.nextFloat() < tod(y, 10, 20, 0.025)) {
                         map.setNode(x, y, NodeType.GOLD);
                     }
-                    if (r.nextFloat() < tod(y,10,5,0.1)) {
-                        map.setNode(x, y, NodeType.AIR);
+                    if (r.nextFloat() < 0.1) {
+                        int g = 10;
+                        for (int j = 0; j < g; j++) {
+                            map.setNode(x + j, (y + j), NodeType.AIR);
+                        }
+
                     }
-                    if (r.nextFloat() < tod(y,20,60,0.01)) {
+                    if (r.nextFloat() < tod(y, 20, 60, 0.01)) {
                         map.setNode(x, y, NodeType.RUBIN);
                     }
 

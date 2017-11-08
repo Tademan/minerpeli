@@ -9,6 +9,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.util.HashMap;
+import java.util.Map;
 import javax.swing.JFrame;
 
 /**
@@ -23,11 +25,31 @@ public class Ikkuna extends Canvas {
     MyMap map;
     Ukkeli pekka;
     int mode;
+    Map<MyMap.NodeType, Color> värit;
+    Color pekkaVäri;
 
     public Ikkuna(MyMap map, Ukkeli pekka, int mode) {
         this.map = map;
         this.pekka = pekka;
         this.mode = mode;
+        Color perus = new Color(214, 194, 045);
+        värit = new HashMap<MyMap.NodeType, Color>();
+        for (MyMap.NodeType type : MyMap.NodeType.values()) {
+            this.värit.put(type, perus);
+        }
+        
+        värit.put(MyMap.NodeType.AIR, Color.white);
+        värit.put(MyMap.NodeType.STONE, Color.lightGray);
+        värit.put(MyMap.NodeType.GRASS, Color.lightGray);
+        värit.put(MyMap.NodeType.COAL, Color.darkGray);
+        värit.put(MyMap.NodeType.IRON, new Color(100, 100, 100));
+        värit.put(MyMap.NodeType.GOLD, Color.yellow);
+        värit.put(MyMap.NodeType.LADDER, Color.orange);
+        värit.put(MyMap.NodeType.RUBIN, Color.red);
+        värit.put(MyMap.NodeType.HARDSTONE, Color.black);
+
+        pekkaVäri = new Color(200, 0, 0);
+
         if (mode == 0) {
             JFrame frame = new JFrame("Miner peli");
             frame.setPreferredSize(new Dimension(map.getWidth() * (kerroin), (map.getHeight()) * (kerroin)));
@@ -55,47 +77,50 @@ public class Ikkuna extends Canvas {
         this.näkymä += x;
     }
 
-    public void maalaa(Graphics g, int x, int y) { //maalaa tavallisessa näkymässä x ja y paikalle oikean värin
-        if (map.isWithinMap(x, y) && null != map.getNode(x, y)) {
-            switch (map.getNode(x, y)) {
-                case STONE:
-                    g.setColor(Color.gray);
+    public void maalaa(Graphics g, int x, int y, int nx, int ny) { //ny ja nx on se mistä se blokki haetaan
+        if (map.isWithinMap(nx, ny) && null != map.getNode(nx, ny)) {
+            g.setColor(this.värit.get(map.getNode(nx, ny)));
+            
+            switch (map.getNode(nx, ny)) {
+                case AIR:                   
                     g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
                     break;
+                case STONE:
+                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
+                    break;
+                case GRASS:
+                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
+                    g.setColor(Color.green);
+                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin / 2);
+                    break;
                 case HARDSTONE:
-                    g.setColor(Color.black);
                     g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
                     break;
                 case COAL:
-                    g.setColor(Color.darkGray);
                     g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
+
                     break;
                 case GOLD:
-                    g.setColor(Color.yellow);
                     g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
                     break;
                 case IRON:
-                    g.setColor(Color.lightGray);
                     g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
                     break;
                 case RUBIN:
-                    g.setColor(Color.red);
                     g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
                     break;
                 case DIAMOND:
-                    g.setColor(Color.blue);
                     g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
                     break;
                 case LADDER:
-                    g.setColor(Color.orange);
-                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
+                    g.fillRect(x * kerroin, y * kerroin, kerroin / 3, kerroin);
+                    g.fillRect(x * kerroin + kerroin / 3 * 2 + 2, y * kerroin, kerroin / 3, kerroin);
+                    g.fillRect(x * kerroin, y * kerroin + kerroin / 4, kerroin, kerroin / 3);
                     break;
                 case KAUPPA1:
-                    g.setColor(Color.pink);
                     g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
                     break;
                 case KAUPPA2:
-                    g.setColor(Color.cyan);
                     g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
                     break;
                 default:
@@ -128,7 +153,7 @@ public class Ikkuna extends Canvas {
         g.setColor(Color.black);
         for (int i = 0; i < map.getWidth(); i++) {
             for (int j = 0; j < map.getHeight(); j++) {
-                maalaa(g, i, j);
+                maalaa(g, i, j, i, j);
 
             }
             g.setColor(Color.red);
@@ -145,7 +170,7 @@ public class Ikkuna extends Canvas {
 
                 int in = i + this.pekka.getX();
                 int jn = j + this.pekka.getY();
-                maalaa(g, in, jn);
+                maalaa(g, in, jn, in, jn);
             }
 
         }
@@ -155,74 +180,16 @@ public class Ikkuna extends Canvas {
 
     } //vain pelaajan ympäriltä
 
-    public void maalaa2(Graphics g, int x, int y, int nx, int ny) { //ny ja nx on se mistä se blokki haetaan
-        if (map.isWithinMap(nx, ny) && null != map.getNode(nx, ny)) {
-            switch (map.getNode(nx, ny)) {
-
-                case STONE:
-                    g.setColor(Color.gray);
-                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
-                    break;
-                case GRASS:
-                    g.setColor(Color.gray);
-                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
-                    g.setColor(Color.green);
-                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin / 2);
-                    break;
-                case HARDSTONE:
-                    g.setColor(Color.black);
-                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
-                    break;
-                case COAL:
-                    g.setColor(Color.darkGray);
-                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
-
-                    break;
-                case GOLD:
-                    g.setColor(Color.yellow);
-                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
-                    break;
-                case IRON:
-                    g.setColor(Color.lightGray);
-                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
-                    break;
-                case RUBIN:
-                    g.setColor(Color.red);
-                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
-                    break;
-                case DIAMOND:
-                    g.setColor(Color.blue);
-                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
-                    break;
-                case LADDER:
-                    g.setColor(Color.orange);
-                    g.fillRect(x * kerroin, y * kerroin, kerroin / 3, kerroin);
-                    g.fillRect(x * kerroin + kerroin / 3 * 2 + 2, y * kerroin, kerroin / 3, kerroin);
-                    g.fillRect(x * kerroin, y * kerroin + kerroin / 4, kerroin, kerroin / 3);
-                    break;
-                case KAUPPA1:
-                    g.setColor(Color.pink);
-                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
-                    break;
-                case KAUPPA2:
-                    g.setColor(Color.cyan);
-                    g.fillRect(x * kerroin, y * kerroin, kerroin, kerroin);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-
     public void paint3(Graphics g) {
         if (this.pekka.getY() >= 3) {
             for (int i = -näkymä; i < näkymä + 1; i++) {
                 for (int j = -näkymä; j < näkymä + 1; j++) {
+                    if(Math.hypot(i, j)<= näkymä || (näkymä == 1)){
 
                     int in = i + this.pekka.getX();
                     int jn = j + this.pekka.getY();
 
-                    maalaa2(g, i + 10, j + 10, in, jn);
+                    maalaa(g, i + 10, j + 10, in, jn);}
 
                 }
             }
@@ -234,13 +201,13 @@ public class Ikkuna extends Canvas {
                     int in = i + this.pekka.getX();
                     int jn = j + this.pekka.getY();
 
-                    maalaa2(g, i + 10, j + 10, in, jn);
+                    maalaa(g, i + 10, j + 10, in, jn);
 
                 }
             }
         }
 
-        g.setColor(Color.red);
+        g.setColor(pekkaVäri);
         g.fillRect(10 * kerroin, 10 * kerroin, kerroin, kerroin);
 
         ylimääräset(g);
