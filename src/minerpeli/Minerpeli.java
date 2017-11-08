@@ -97,7 +97,7 @@ public class Minerpeli {
                 }
             } else if (map.isWithinMap(px, py + 1) && map.getNode(px, py + 1) == MyMap.NodeType.AIR) {//tippuminen
                 this.pekka.move(0, 1);
-            } else if (type == MyMap.NodeType.AIR || type == MyMap.NodeType.LADDER) {
+            } else if (type == MyMap.NodeType.AIR || type == MyMap.NodeType.LADDER || type == MyMap.NodeType.KAUPPA1 || type == MyMap.NodeType.KAUPPA2) {
                 this.pekka.move(x, y);
 
             } else if (type == MyMap.NodeType.HARDSTONE || type == MyMap.NodeType.LADDER) {
@@ -120,7 +120,7 @@ public class Minerpeli {
         }
 
         game.pekka = new Ukkeli(2, 2);
-        game.ikkuna = new Ikkuna(game.map, game.pekka);
+        game.ikkuna = new Ikkuna(game.map, game.pekka,1);
 
         game.init();
 

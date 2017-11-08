@@ -126,7 +126,9 @@ public class MyMap {
         GOLD(5),
         DIAMOND(6),
         LADDER(7),
-        PILLAR(8)
+        PILLAR(8),
+        KAUPPA1(9),
+        KAUPPA2(10)
         ;
 
         public static NodeType nodeTypeFromByte(byte i) {

@@ -25,44 +25,49 @@ public class MapCreator {
 
         for (int i = 0; i < 3; i++) {
             File file = new File("kartat/kartta" + String.format("%03d", i) + ".dat");
-            MyMap map = new MyMap(40, 60, 5, 5);
-            
+            MyMap map = new MyMap(100, 200, 5, 5);
+
             for (int x = 0; x < map.getWidth(); x++) {
                 for (int y = 0; y < map.getHeight(); y++) {
+
                     
-                    if (y < 3){
-                        map.setNode(x, y, NodeType.AIR);
-                    }else {
-                        map.setNode(x, y, NodeType.STONE);
-                    }
-                    if (y == 3) {
-                        map.setNode(x, y, NodeType.STONE);
-                    }
-                    if (r.nextFloat() < 1/y) {
+                    map.setNode(x, y, NodeType.STONE);
+                    
+                    
+                    if (r.nextFloat() < 0.1*((float) y/map.getHeight())) {
                         map.setNode(x, y, NodeType.HARDSTONE);
                     }
                     if (r.nextFloat() < 0.1) {
                         map.setNode(x, y, NodeType.COAL);
                     }
-                    if (r.nextFloat() < 0.1) {
+                    if (r.nextFloat() < 0.06) {
                         map.setNode(x, y, NodeType.IRON);
-                    } 
-                    if (r.nextFloat() < 0.1) {
+                    }
+                    if (r.nextFloat() < 0.1*((float) y/map.getHeight())) {
                         map.setNode(x, y, NodeType.GOLD);
                     }
                     if (r.nextFloat() < 0.1) {
                         map.setNode(x, y, NodeType.AIR);
-                    } 
+                    }
+                    
+                    if (y == 3) {
+                        map.setNode(x, y, NodeType.STONE);
+                    }
+                    if (y < 3) {
+                        map.setNode(x, y, NodeType.AIR);
+                    }
                 }
             }
-            
-            map.setNode(r.nextInt(map.getWidth()-1), map.getHeight()-3-r.nextInt(map.getHeight()/10), NodeType.DIAMOND);
-            
-            for (int k = 0; k < map.getWidth(); k++){
-                map.setNode(k, map.getHeight()-1, NodeType.HARDSTONE);
-                map.setNode(k, map.getHeight()-2, NodeType.HARDSTONE);
+
+            map.setNode(r.nextInt(map.getWidth() - 1), map.getHeight() - 3 - r.nextInt(map.getHeight() / 10), NodeType.DIAMOND);
+            map.setNode(10, 1, NodeType.KAUPPA1);
+            map.setNode(11, 1, NodeType.KAUPPA2);
+
+            for (int k = 0; k < map.getWidth(); k++) {
+                map.setNode(k, map.getHeight() - 1, NodeType.HARDSTONE);
+                map.setNode(k, map.getHeight() - 2, NodeType.HARDSTONE);
             }
-            
+
             try (FileOutputStream o = new FileOutputStream(file)) {
                 map.writeToStream(o);
 
