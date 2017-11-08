@@ -116,19 +116,32 @@ public class MyMap {
 
         return map;
     }
+    
+    public enum NodeCategory {
+        AIR,
+        EARTH,
+        ORE,
+        ITEM,
+        KAUPPA,
+        ;
+        
+        
+    }
 
     public enum NodeType {
-        AIR(0),
-        STONE(1),
-        HARDSTONE(2),
-        COAL(3),
-        IRON(4),
-        GOLD(5),
-        DIAMOND(6),
-        LADDER(7),
-        PILLAR(8),
-        KAUPPA1(9),
-        KAUPPA2(10)
+        AIR(0, NodeCategory.AIR),
+        STONE(1, NodeCategory.EARTH),
+        GRASS(2,NodeCategory.EARTH),
+        HARDSTONE(3,NodeCategory.EARTH),
+        COAL(4,NodeCategory.ORE),
+        IRON(5,NodeCategory.ORE),
+        GOLD(6,NodeCategory.ORE),
+        DIAMOND(7,NodeCategory.ORE),
+        RUBIN(8,NodeCategory.ORE),
+        LADDER(9,NodeCategory.ITEM),
+        PILLAR(10,NodeCategory.ITEM),
+        KAUPPA1(11,NodeCategory.KAUPPA),
+        KAUPPA2(12,NodeCategory.KAUPPA)
         ;
 
         public static NodeType nodeTypeFromByte(byte i) {
@@ -141,14 +154,22 @@ public class MyMap {
         }
 
         private byte code;
+        private NodeCategory category;
 
-        private NodeType(int code) {
+        private NodeType(int code, NodeCategory cat) {
             this.code = (byte) code;
+            this.category = cat;
         }
 
         public byte getCode() {
             return code;
         }
+
+        public NodeCategory getCategory() {
+            return category;
+        }
+        
+        
 
     }
 

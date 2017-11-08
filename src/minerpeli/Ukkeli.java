@@ -50,10 +50,11 @@ public class Ukkeli {
         this.raha = this.raha + inventory.get(MyMap.NodeType.COAL)*1;
         this.raha = this.raha + inventory.get(MyMap.NodeType.GOLD)*5;
         this.raha = this.raha + inventory.get(MyMap.NodeType.IRON)*2;
+        this.raha = this.raha + inventory.get(MyMap.NodeType.RUBIN)*10;
         this.raha = this.raha + inventory.get(MyMap.NodeType.DIAMOND)*100;
         
         for (MyMap.NodeType type : MyMap.NodeType.values()) {
-            if (!(type == MyMap.NodeType.LADDER)){
+            if ((type != MyMap.NodeType.LADDER)){
             
                 this.inventory.put(type, 0);}
         }
