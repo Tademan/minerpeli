@@ -31,7 +31,7 @@ public class MapCreator {
 
         for (int i = 0; i < 3; i++) {
             File file = new File("kartat/kartta" + String.format("%03d", i) + ".dat");
-            MyMap map = new MyMap(100, 200, 5, 5);
+            MyMap map = new MyMap(1000, 1000, 5, 5);
 
             for (int x = 0; x < map.getWidth(); x++) {
                 for (int y = 0; y < map.getHeight(); y++) {
@@ -53,7 +53,7 @@ public class MapCreator {
                     if (r.nextFloat() < 0.1) {
                         int g = 10;
                         for (int j = 0; j < g; j++) {
-                            map.setNode(x + j, (y + j), NodeType.AIR);
+                            map.setNode(x, (y + j), NodeType.AIR);
                         }
 
                     }
@@ -72,8 +72,10 @@ public class MapCreator {
             }
 
             map.setNode(r.nextInt(map.getWidth() - 1), map.getHeight() - 3 - r.nextInt(map.getHeight() / 10), NodeType.DIAMOND);
-            map.setNode(10, 1, NodeType.KAUPPA1);
-            map.setNode(11, 1, NodeType.KAUPPA2);
+            
+            map.setNode(map.getWidth()/2, 1, NodeType.KAUPPA1);
+            map.setNode(map.getWidth()/2+1, 1, NodeType.KAUPPA2);
+            map.setNode(map.getWidth()/2+2, 1, NodeType.KAUPPA3);
 
             for (int k = 0; k < map.getWidth(); k++) {
                 map.setNode(k, map.getHeight() - 1, NodeType.HARDSTONE);

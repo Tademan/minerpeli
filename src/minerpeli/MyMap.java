@@ -77,8 +77,10 @@ public class MyMap {
     }
 
     public void writeToStream(OutputStream s) throws IOException {
-        s.write(width);
-        s.write(height);
+        s.write(width&0xff);
+        s.write((width>>8)&0xff);
+        s.write(height&0xff);
+        s.write((height>>8)&0xff);
         s.write(PlayerX);
         s.write(PlayerY);
 
@@ -94,8 +96,9 @@ public class MyMap {
     }
 
     public static MyMap readFromStream(InputStream s) throws IOException {
-        int width = s.read();
-        int height = s.read();
+        
+        int width = s.read(); width += (s.read()<<8);
+        int height = s.read(); height += (s.read()<<8);
         int PlayerX = s.read();
         int PlayerY = s.read();
 
@@ -138,7 +141,8 @@ public class MyMap {
         LADDER(9, NodeCategory.ITEM),
         PILLAR(10, NodeCategory.ITEM),
         KAUPPA1(11, NodeCategory.KAUPPA),
-        KAUPPA2(12, NodeCategory.KAUPPA);
+        KAUPPA2(12, NodeCategory.KAUPPA),
+        KAUPPA3(13, NodeCategory.KAUPPA);
 
         public static NodeType nodeTypeFromByte(byte i) {
             for (NodeType t : values()) {

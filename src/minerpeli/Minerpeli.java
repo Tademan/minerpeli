@@ -64,13 +64,19 @@ public class Minerpeli {
             pekka.sell();
 
         }
-        if (pekka.getX() == 10 && pekka.getY() == 1) {
+        if (map.getNode(pekka.getX(), pekka.getY()) == MyMap.NodeType.KAUPPA1) {
             pekka.buy(MyMap.NodeType.LADDER);
         }
-        if (pekka.getX() == 11 && pekka.getY() == 1) {
+        if (map.getNode(pekka.getX(), pekka.getY()) == MyMap.NodeType.KAUPPA2) {
             if (pekka.getRaha() >= 50) {
                 pekka.addToRaha(-50);
                 ikkuna.addToNäkymä(1);
+            }
+        }
+         if (map.getNode(pekka.getX(), pekka.getY()) == MyMap.NodeType.KAUPPA3) {
+            if (pekka.getRaha() >= 20) {
+                pekka.addToRaha(-20);
+                pekka.addToTila(1);
             }
         }
 
@@ -94,17 +100,25 @@ public class Minerpeli {
                     pekka.setInInventory(MyMap.NodeType.LADDER, -1);
                 } else {
                     this.pekka.move(0, 1);
+
                 }
             } else if (map.isWithinMap(px, py + 1) && map.getNode(px, py + 1) == MyMap.NodeType.AIR) {//tippuminen
                 this.pekka.move(0, 1);
-            } else if (type == MyMap.NodeType.AIR || type == MyMap.NodeType.LADDER || type == MyMap.NodeType.KAUPPA1 || type == MyMap.NodeType.KAUPPA2) {
+                if (map.isWithinMap(px, py + 2) && map.getNode(px, py + 2) == MyMap.NodeType.AIR) {
+
+                    this.movePlayer(0, 1);
+
+                }
+            } else if (type == MyMap.NodeType.AIR || type == MyMap.NodeType.LADDER || type.getCategory() == MyMap.NodeCategory.KAUPPA) {
                 this.pekka.move(x, y);
 
             } else if (type == MyMap.NodeType.HARDSTONE || type == MyMap.NodeType.LADDER) {
 
             } else {
                 map.setNode(px + x, py + y, MyMap.NodeType.AIR);
-                pekka.setInInventory(type, 1);
+                if (type.getCategory() == MyMap.NodeCategory.ORE){
+                    
+                    pekka.setInInventory(type, 1);}
             }
         }
 
@@ -121,9 +135,8 @@ public class Minerpeli {
             System.exit(1);
         }
 
-        game.pekka = new Ukkeli(2, 2);
-        game.ikkuna = new Ikkuna(game.map, game.pekka,1);
-        
+        game.pekka = new Ukkeli(game.map.getWidth()/2, 2);
+        game.ikkuna = new Ikkuna(game.map, game.pekka, 1);
 
         game.init();
 

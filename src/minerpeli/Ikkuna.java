@@ -47,6 +47,8 @@ public class Ikkuna extends Canvas {
         värit.put(MyMap.NodeType.LADDER, Color.orange);
         värit.put(MyMap.NodeType.RUBIN, Color.red);
         värit.put(MyMap.NodeType.HARDSTONE, Color.black);
+        värit.put(MyMap.NodeType.KAUPPA1, Color.pink);
+        värit.put(MyMap.NodeType.KAUPPA2, Color.cyan);
 
         pekkaVäri = new Color(200, 0, 0);
 
@@ -128,7 +130,7 @@ public class Ikkuna extends Canvas {
             }
         }
     }
-
+    
     @Override
     public void paint(Graphics g) {
         if (this.mode == 0) {
@@ -145,8 +147,13 @@ public class Ikkuna extends Canvas {
         g.drawString("Rauta: " + Integer.toString(this.pekka.getInventory().get(MyMap.NodeType.IRON)), 10, 50);
         g.drawString("Kulta: " + Integer.toString(this.pekka.getInventory().get(MyMap.NodeType.GOLD)), 10, 60);
         g.drawString("Timantti: " + Integer.toString(this.pekka.getInventory().get(MyMap.NodeType.DIAMOND)), 10, 70);
-        g.drawString("Y: " + Integer.toString(this.pekka.getY()), 10, 80);
-        g.drawString("X: " + Integer.toString(this.pekka.getX()), 10, 90);
+        g.drawString("Rubiini: " + Integer.toString(this.pekka.getInventory().get(MyMap.NodeType.RUBIN)), 10, 80);
+        g.drawString("Y: " + Integer.toString(this.pekka.getY()), 100, 20);
+        g.drawString("X: " + Integer.toString(this.pekka.getX()), 100, 30);
+        g.drawString("Tilaa: " + Integer.toString(this.pekka.getTila()), 100, 40);
+        if (pekka.getTila()<=0){
+            g.drawString("EI TILAA", 100, 100);
+        }
     }
 
     public void paint1(Graphics g) {
